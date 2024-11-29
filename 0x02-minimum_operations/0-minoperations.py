@@ -1,25 +1,35 @@
 #!/usr/bin/python3
-"""
-this module calculates the minimum operation a function needs
-"""
+'''The minimum operations coding challenge.
+'''
 
 
 def minOperations(n):
-    """
-    the function is the begining of it all
-    """
-    if n <= 1:
-        return 0  # Impossible to achieve
-
-    operations = 0
-    factor = 2  # Start checking factors from 2
-
-    # Factorize n
-    while n > 1:
-        if n % factor == 0:  # If factor is a divisor
-            operations += factor  # Add the factor to operations
-            n //= factor  # Reduce n
-        else:
-            factor += 1  # Move to the next factor
-
-    return operations
+    '''Computes the fewest number of operations needed to result
+    in exactly n H characters.
+    '''
+    if not isinstance(n, int):
+        return 0
+    ops_count = 0
+    clipboard = 0
+    done = 1
+    # print('H', end='')
+    while done < n:
+        if clipboard == 0:
+            # init (the first copy all and paste)
+            clipboard = done
+            done += clipboard
+            ops_count += 2
+            # print('-(11)->{}'.format('H' * done), end='')
+        elif n - done > 0 and (n - done) % done == 0:
+            # copy all and paste
+            clipboard = done
+            done += clipboard
+            ops_count += 2
+            # print('-(11)->{}'.format('H' * done), end='')
+        elif clipboard > 0:
+            # paste
+            done += clipboard
+            ops_count += 1
+            # print('-(01)->{}'.format('H' * done), end='')
+    # print('')
+    return ops_count
